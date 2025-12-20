@@ -1,0 +1,27 @@
+{% extends 'qr_detector/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <h2>Scan QR Code from Image</h2>
+    <p class="subtitle">Upload a QR image to detect UPI scam or suspicious activity.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn-primary" type="submit">Scan Now</button>
+
+        <!-- 🔥 Loading animation -->
+        <div id="loading" style="display:none; text-align:center; margin-top:15px;">
+            <img src="{% static 'img/loader.gif' %}" width="80">
+            <p style="color:#9ca3af; font-size:0.9rem;">Analyzing QR… Please wait</p>
+        </div>
+    </form>
+</div>
+
+<script>
+document.querySelector("form").addEventListener("submit", function () {
+    document.getElementById("loading").style.display = "block";
+});
+</script>
+{% endblock %}
