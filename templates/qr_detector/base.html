@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UPI QR Scam Detection</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="page-wrapper">
+    <header class="top-bar">
+        <h1 class="logo">UPI QR Scam Detector</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'webcam_scan' %}">Webcam Scan</a>
+
+                <a href="{% url 'index' %}">Scan QR</a>
+                <a href="{% url 'history' %}">History</a>
+
+                <!-- FIXED LOGOUT -->
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:#e5e7eb;cursor:pointer;">
+                        Logout
+                    </button>
+                </form>
+
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        UPI QR Scam Detection • Django + Image ML
+    </footer>
+</div>
+
+<!-- ADD THIS -->
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

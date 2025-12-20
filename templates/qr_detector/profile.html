@@ -1,0 +1,53 @@
+{% extends "qr_detector/base.html" %}
+{% block content %}
+
+<div class="card" style="max-width:520px;">
+
+    <h2>My Profile</h2>
+    <p class="subtitle">View your account details and manage security</p>
+
+    <!-- Profile Info -->
+    <table class="detail-table" style="margin-bottom:1.5rem;">
+        <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user.email|default:"Not provided" }}</td>
+        </tr>
+        <tr>
+            <th>Joined On</th>
+            <td>{{ user.date_joined|date:"d M Y" }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+                <span class="risk-pill risk-safe">Active</span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Change Password -->
+    <h3 style="margin-bottom:0.6rem;">Change Password</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn-primary" style="margin-top:0.5rem;">
+            Update Password
+        </button>
+    </form>
+
+    <!-- Logout -->
+    <form action="{% url 'logout' %}" method="post" style="margin-top:2rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout">
+            🚪 Logout
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}

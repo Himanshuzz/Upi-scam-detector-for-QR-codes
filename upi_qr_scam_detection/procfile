@@ -1,0 +1,7 @@
+web: gunicorn Upi-scam-detector-for-QR-codes
+_.wsgi
+Django>=4.2
+gunicorn
+whitenoise
+psycopg2-binary
+dj-database-url
