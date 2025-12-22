@@ -2,24 +2,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login | UPI QR Scanner</title>
-    <link href="{% static 'qr_detector/css/style.css' %}" rel="stylesheet">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'qr_detector/static/css/style.css' %}">
 </head>
 <body>
-<div class="card" style="max-width:420px;margin:120px auto;">
-    <h2 style="text-align:center;">Login</h2>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="/">
 
-        {{ form.as_p }}
-        <button class="btn-primary" type="submit" style="width:100%;">Login</button>
-    </form>
+<h2>Login</h2>
 
-    <p style="margin-top:1rem;text-align:center;">
-        No account? <a href="{% url 'signup' %}">Signup</a>
+<form method="post">
+    {% csrf_token %}
+
+    <p>
+        <label>Username:</label><br>
+        <input type="text" name="username" required>
     </p>
-</div>
+
+    <p>
+        <label>Password:</label><br>
+        <input type="password" name="password" required>
+    </p>
+
+    <button type="submit">Login</button>
+</form>
+
+<p>
+    No account?
+    <a href="{% url 'signup' %}">Signup</a>
+</p>
+
 </body>
 </html>

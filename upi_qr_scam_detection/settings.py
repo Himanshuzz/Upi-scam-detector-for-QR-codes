@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
-DEBUG = os.environ.get("DEBUG") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -32,18 +32,19 @@ INSTALLED_APPS = [
     # Third-party
     "corsheaders",
 
-    # Local apps
+    # Local
     "qr_detector",
 ]
 
 
 # --------------------------------------------------
-# MIDDLEWARE  (WhiteNoise + CORS)
+# MIDDLEWARE
 # --------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ REQUIRED
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ static files
     "corsheaders.middleware.CorsMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -67,7 +68,7 @@ WSGI_APPLICATION = "upi_qr_scam_detection.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "templates"], # project-level templates folder
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -113,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = []
 # INTERNATIONALIZATION
 # --------------------------------------------------
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
@@ -121,17 +121,16 @@ USE_TZ = True
 
 
 # --------------------------------------------------
-# STATIC FILES (RENDER + NETLIFY READY)
+# STATIC FILES (🔥 FIXED)
 # --------------------------------------------------
 STATIC_URL = "/static/"
+
+# ✅ production output folder (created by collectstatic)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# ✅ IMPORTANT:
-# Only keep this if the folder actually exists
-# If you DON'T have BASE_DIR/static/, remove this line
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# ❌ DO NOT use STATICFILES_DIRS on Render
+# ❌ This was causing your warning
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -146,7 +145,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 # --------------------------------------------------
-# CORS (FOR NETLIFY / FRONTEND)
+# CORS
 # --------------------------------------------------
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -163,4 +162,3 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 # DEFAULT FIELD
 # --------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-# --------------------------------------------------

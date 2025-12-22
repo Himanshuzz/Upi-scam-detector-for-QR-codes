@@ -2,22 +2,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Signup - UPI QR Scam Detection</title>
-    <link href="{% static 'qr_detector/css/style.css' %}" rel="stylesheet">
+    <title>Signup</title>
+    <link rel="stylesheet" href="{% static 'qr_detector/static/css/style.css' %}">
 </head>
 <body>
-<div class="card" style="max-width:420px;margin:120px auto;">
-    <h2 style="text-align:center;">Create Account</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn-primary" type="submit" style="width:100%;">Signup</button>
-    </form>
 
-    <p style="text-align:center;margin-top:1rem;">
-        Already registered? <a href="{% url 'login' %}">Login</a>
-    </p>
-</div>
+<h2>Signup</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Account</button>
+</form>
+
+<p>
+    Already have an account?
+    <a href="{% url 'login' %}">Login</a>
+</p>
+
 </body>
 </html>

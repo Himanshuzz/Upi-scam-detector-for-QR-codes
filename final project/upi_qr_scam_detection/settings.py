@@ -1,14 +1,25 @@
 from pathlib import Path
 import os
 
+# --------------------------------------------------
+# BASE DIR
+# --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "change-this-secret-key"
 
-DEBUG = True
+# --------------------------------------------------
+# SECURITY
+# --------------------------------------------------
+SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
-ALLOWED_HOSTS = ["*"]
+DEBUG = True  # set False later if needed
 
+ALLOWED_HOSTS = ["*"]  # required for Render
+
+
+# --------------------------------------------------
+# APPLICATIONS
+# --------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -16,11 +27,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "qr_detector",
 ]
 
+
+# --------------------------------------------------
+# MIDDLEWARE
+# --------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+
+    # Static files on Render
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -29,12 +49,25 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+# --------------------------------------------------
+# URLS / WSGI
+# --------------------------------------------------
 ROOT_URLCONF = "upi_qr_scam_detection.urls"
 
+WSGI_APPLICATION = "upi_qr_scam_detection.wsgi.application"
+
+
+# --------------------------------------------------
+# TEMPLATES  (🔥 FIXES TemplateDoesNotExist)
+# --------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],   # <--- project templates
+
+        # project-level templates folder
+        "DIRS": [BASE_DIR / "templates"],
+
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -47,8 +80,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "upi_qr_scam_detection.wsgi.application"
 
+# --------------------------------------------------
+# DATABASE
+# --------------------------------------------------
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -56,26 +91,51 @@ DATABASES = {
     }
 }
 
+
+# --------------------------------------------------
+# PASSWORD VALIDATION (disabled for college project)
+# --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = []
 
+
+# --------------------------------------------------
+# INTERNATIONALIZATION
+# --------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
- 
-]
 
+# --------------------------------------------------
+# STATIC FILES (🔥 RENDER + WHITENOISE)
+# --------------------------------------------------
+STATIC_URL = "/static/"
+
+# DO NOT use STATICFILES_DIRS on Render
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
+
+# --------------------------------------------------
+# MEDIA FILES
+# --------------------------------------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# --------------------------------------------------
+# AUTH SETTINGS
+# --------------------------------------------------
 LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/dashboard/"   # prevents redirect to /accounts/profile/
+LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 
+# --------------------------------------------------
+# DEFAULT PRIMARY KEY
+# --------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
