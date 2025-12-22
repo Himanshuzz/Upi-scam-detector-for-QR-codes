@@ -1,5 +1,6 @@
+
 {% extends 'qr_detector/base.html' %}
-{% load static %}
+
 {% block content %}
 
 <div class="card">
@@ -7,8 +8,7 @@
 
     <!-- Risk Badge -->
     <span class="risk-badge risk-{{ scan.risk_level|lower }}">{{ scan.risk_level }}</span>
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <!-- QR IMAGE -->
+    
     {% if scan.uploaded_image %}
     <div class="qr-preview" style="margin-top:1rem; max-width:260px;">
         <img src="{{ scan.uploaded_image.url }}" alt="QR Image" style="width:100%; border-radius:0.8rem;">
