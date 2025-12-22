@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import dj_database_url
 
 # --------------------------------------------------
 # BASE DIR
@@ -13,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True  # set False later if needed
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]  # required for Render
 
 
 # --------------------------------------------------
@@ -29,10 +28,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Third-party
-    "corsheaders",
-
-    # Local
     "qr_detector",
 ]
 
@@ -42,8 +37,9 @@ INSTALLED_APPS = [
 # --------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ static files
-    "corsheaders.middleware.CorsMiddleware",
+
+    # Static files on Render
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -55,7 +51,7 @@ MIDDLEWARE = [
 
 
 # --------------------------------------------------
-# URLS & WSGI
+# URLS / WSGI
 # --------------------------------------------------
 ROOT_URLCONF = "upi_qr_scam_detection.urls"
 
@@ -63,12 +59,15 @@ WSGI_APPLICATION = "upi_qr_scam_detection.wsgi.application"
 
 
 # --------------------------------------------------
-# TEMPLATES
+# TEMPLATES  (🔥 FIXES TemplateDoesNotExist)
 # --------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"], # project-level templates folder
+
+        # project-level templates folder
+        "DIRS": [BASE_DIR / "templates"],
+
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -85,27 +84,16 @@ TEMPLATES = [
 # --------------------------------------------------
 # DATABASE
 # --------------------------------------------------
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
-if DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True,
-        )
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+}
 
 
 # --------------------------------------------------
-# AUTH / PASSWORDS
+# PASSWORD VALIDATION (disabled for college project)
 # --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = []
 
@@ -115,22 +103,17 @@ AUTH_PASSWORD_VALIDATORS = []
 # --------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
-
 USE_I18N = True
 USE_TZ = True
 
 
 # --------------------------------------------------
-# STATIC FILES (🔥 FIXED)
+# STATIC FILES (🔥 RENDER + WHITENOISE)
 # --------------------------------------------------
 STATIC_URL = "/static/"
 
-# ✅ production output folder (created by collectstatic)
+# DO NOT use STATICFILES_DIRS on Render
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# ❌ DO NOT use STATICFILES_DIRS on Render
-# ❌ This was causing your warning
-# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -145,13 +128,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 # --------------------------------------------------
-# CORS
-# --------------------------------------------------
-CORS_ALLOW_ALL_ORIGINS = True
-
-
-# --------------------------------------------------
-# AUTH REDIRECTS
+# AUTH SETTINGS
 # --------------------------------------------------
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
@@ -159,6 +136,6 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 
 # --------------------------------------------------
-# DEFAULT FIELD
+# DEFAULT PRIMARY KEY
 # --------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

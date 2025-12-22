@@ -1,9 +1,6 @@
 import cv2
 
 def decode_qr(image_path: str) -> str | None:
-    """
-    Decode QR code using OpenCV (Render-safe).
-    """
     img = cv2.imread(image_path)
     if img is None:
         return None

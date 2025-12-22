@@ -1,4 +1,4 @@
-const RENDER_URL = "https://upi-scam-detector-for-qr-codes-15.onrender.com";
+const RENDER_URL = "https://upi-scam-detector-for-qr-codes-1-8opr.onrender.com";
 
 function scanQR() {
   const fileInput = document.getElementById("qrInput");
