@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 
 
 # --------------------------------------------------
-# MIDDLEWARE  (🔥 FIXED — WhiteNoise added)
+# MIDDLEWARE  (WhiteNoise + CORS)
 # --------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -121,30 +121,32 @@ USE_TZ = True
 
 
 # --------------------------------------------------
-# STATIC & MEDIA FILES  (🔥 FIXED)
+# STATIC FILES (RENDER + NETLIFY READY)
 # --------------------------------------------------
-# --------------------------------------------------
-# STATIC FILES (RENDER FIX)
-# --------------------------------------------------
-
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# ✅ IMPORTANT:
+# Only keep this if the folder actually exists
+# If you DON'T have BASE_DIR/static/, remove this line
 STATICFILES_DIRS = [
-    BASE_DIR / "qr_detector" / "static",
+    BASE_DIR / "static",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
 
 # --------------------------------------------------
 # MEDIA FILES
-
+# --------------------------------------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
 # --------------------------------------------------
-# CORS (FOR VERCEL FRONTEND)
+# CORS (FOR NETLIFY / FRONTEND)
 # --------------------------------------------------
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -161,3 +163,4 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 # DEFAULT FIELD
 # --------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# --------------------------------------------------
