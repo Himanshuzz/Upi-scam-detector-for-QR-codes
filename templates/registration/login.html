@@ -1,8 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login | UPI Scam Detector</title>
+
+    <!-- Main stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -10,23 +13,29 @@
 <h2>Login</h2>
 
 <form method="post">
-    {% csrf_token %}
+    {% csrf_token %}   <!-- 🔐 REQUIRED -->
+
+    {% if form.errors %}
+        <p style="color:red;">
+            Invalid username or password
+        </p>
+    {% endif %}
 
     <p>
-        <label>Username:</label><br>
-        <input type="text" name="username" required>
+        <label for="id_username">Username:</label><br>
+        <input type="text" name="username" id="id_username" required>
     </p>
 
     <p>
-        <label>Password:</label><br>
-        <input type="password" name="password" required>
+        <label for="id_password">Password:</label><br>
+        <input type="password" name="password" id="id_password" required>
     </p>
 
     <button type="submit">Login</button>
 </form>
 
 <p>
-    No account?
+    Don’t have an account?
     <a href="{% url 'signup' %}">Signup</a>
 </p>
 
