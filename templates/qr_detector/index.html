@@ -4,7 +4,7 @@
 <div class="card">
     <h2>Scan QR Code from Image</h2>
     <p class="subtitle">Upload a QR image to detect UPI scam or suspicious activity.</p>
-    <link href="{% static 'qr_detector/static/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
