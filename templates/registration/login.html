@@ -3,34 +3,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | UPI Scam Detector</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body class="auth-body">
+    <title>Login | UPI QR Scam Detector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="auth-card">
-    <h2>Welcome Back 👋</h2>
-    <p class="subtitle">Login to continue</p>
+    <!-- Optional external font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url("{% static 'img/bg.jpg' %}") center/cover no-repeat;
+        }
+        .auth-box {
+            background: #fff;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-box">
+    <h2>Login</h2>
+
+    {% if form.errors %}
+        <div class="error">Invalid username or password</div>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
 
-        {% if form.errors %}
-            <div class="error-box">
-                Invalid username or password
-            </div>
-        {% endif %}
+        <label>Username</label>
+        <input type="text" name="username" required>
 
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-        <button type="submit" class="btn-primary">Login</button>
+        <button type="submit">Login</button>
     </form>
 
-    <p class="switch">
+    <div class="footer">
         Don’t have an account?
-        <a href="{% url 'signup' %}">Create one</a>
-    </p>
+        <a href="{% url 'signup' %}">Sign up</a>
+    </div>
 </div>
 
 </body>
