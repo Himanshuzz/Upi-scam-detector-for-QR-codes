@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
-DEBUG = True  # set False later if needed
+DEBUG = False  # set False later if needed
 
-ALLOWED_HOSTS = ["*"]  # required for Render
+ALLOWED_HOSTS = ["upi-scam-detector-for-qr-codes-6-htt2.onrender.com"]  # required for Render
 
 
 # --------------------------------------------------
@@ -131,7 +131,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # AUTH SETTINGS
 # --------------------------------------------------
 LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/dashboard/"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 
