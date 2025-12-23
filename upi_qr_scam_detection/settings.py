@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
-DEBUG = False  # set False later if needed
+DEBUG = True  # set False later if needed
 
 ALLOWED_HOSTS = ["*"]  # required for Render
 
