@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-secret-key")
 
 DEBUG = False  # set False later if needed
 
-ALLOWED_HOSTS = ["upi-scam-detector-for-qr-codes-6-htt2.onrender.com"]  # required for Render
+ALLOWED_HOSTS = ["upi-scam-detector-for-qr-codes-7-htt2.onrender.com"]  # required for Render
 
 
 # --------------------------------------------------
